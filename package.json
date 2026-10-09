@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "tsx watch src/index.ts",
-    "prueba": "tsx watch src/app/main.ts"
+    "pr": "tsx watch src/repository/view.repository.ts"
   },
   "keywords": [],
   "author": "",
