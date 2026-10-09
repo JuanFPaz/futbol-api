@@ -140,7 +140,7 @@ export default class ViewService {
               "Final",
             ];
             const partidos = FIXTURE_DATA.filter(
-              (fixture) => (fixture.league.round = ronda),
+              (fixture) => (fixture.league.round === ronda),
             );
             return { ronda: rondaName[idx], partidos: partidos };
           });

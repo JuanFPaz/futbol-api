@@ -47,7 +47,7 @@ export function sumatoriaVictoriaVisitante(local: any, visitante: any, partido: 
 }
 
 export function sumatoriaEmpate(local: any, visitante: any, partido: any){
-  local.points += 0;
+  local.points += 1;
   local.goalsDiff += partido.goals.home! - partido.goals.away!;
   local.all.played += 1;
   local.all.draw += 1;
@@ -58,7 +58,7 @@ export function sumatoriaEmpate(local: any, visitante: any, partido: any){
   local.home.goals.for += partido.goals.home!;
   local.home.goals.against += partido.goals.away!;
 
-  visitante.points += 3;
+  visitante.points += 1;
   visitante.goalsDiff += partido.goals.away! - partido.goals.home!;
   visitante.all.played += 1;
   visitante.all.draw += 1;
