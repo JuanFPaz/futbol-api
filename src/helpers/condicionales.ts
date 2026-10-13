@@ -2,6 +2,14 @@ export function esClausuraApertura(tournament?: string){
     return tournament === 'apertura' || tournament === 'clausura'
 }
 
+export function esCopaDeLaLiga(league?:string){
+    return league === "copa-lpf"
+}
+
+export function esLigaProfesional(league?:string){
+    return league === "lpf"
+}
+
 export function esTemporada(season:string, year:number){
     return Number(season) === year
 }
@@ -14,7 +22,7 @@ export function esFaseRegular(fase: string){
 }
 
 export function esFasePlayoff(fase:string){
-    return !esFaseRegular(fase)
+    return !esFaseRegular(fase) && fase !== 'Relegation Decider'
 }
 
 export function esPartidoFinalizado(partido:string){

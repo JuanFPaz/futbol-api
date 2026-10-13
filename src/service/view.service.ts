@@ -8,9 +8,11 @@ import {
 import { FixtureMatch } from "../types/raw.types.js";
 import {
   esClausuraApertura,
+  esCopaDeLaLiga,
   esEmpate,
   esFasePlayoff,
   esFaseRegular,
+  esLigaProfesional,
   esPartidoFinalizado,
   esTemporada,
   esVictoriaLocal,
@@ -140,7 +142,7 @@ export default class ViewService {
               "Final",
             ];
             const partidos = FIXTURE_DATA.filter(
-              (fixture) => (fixture.league.round === ronda),
+              (fixture) => fixture.league.round === ronda,
             );
             return { ronda: rondaName[idx], partidos: partidos };
           });
@@ -155,6 +157,185 @@ export default class ViewService {
               {
                 fase: "playoffs",
                 rondas: PARTIDOS_PLAYOFF,
+              },
+            ],
+          };
+
+          const PATH_DIR = PATH_DIR_VIEW(storage);
+          const PATH_WRITE = PATH_WRITE_VIEW(storage);
+          await ViewRepository.createFile(
+            PATH_DIR,
+            PATH_WRITE,
+            FIXTURE_COMPLETO,
+          );
+          return;
+        }
+        if (esCopaDeLaLiga(storage.directory.league)) {
+          if (
+            esTemporada(storage.directory.season!, 2022) ||
+            esTemporada(storage.directory.season!, 2021)
+          ) {
+            ROUND_DATA = ROUND_DATA.filter((ronda) =>
+              ronda.startsWith("1st Phase"),
+            );
+            let RONDA_REGULAR = ROUND_DATA.filter(esFaseRegular);
+            let RONDA_PLAYOFF = ROUND_DATA.filter(esFasePlayoff);
+            const PARTIDOS_REGU = RONDA_REGULAR.map((ronda, idx) => {
+              const partidos = FIXTURE_DATA.filter(
+                (fixture) => fixture.league.round === ronda,
+              );
+              return { ronda: `Fecha ${idx + 1}`, partidos };
+            });
+
+            const PARTIDOS_PLAYOFF = RONDA_PLAYOFF.map((ronda, idx) => {
+              const rondaName = ["Cuartos de Final", "Semifinal", "Final"];
+              const partidos = FIXTURE_DATA.filter(
+                (fixture) => fixture.league.round === ronda,
+              );
+              return { ronda: rondaName[idx], partidos: partidos };
+            });
+
+            const FIXTURE_COMPLETO = {
+              formato: "regular-playoffs",
+              fases: [
+                {
+                  fase: "regular",
+                  rondas: PARTIDOS_REGU,
+                },
+                {
+                  fase: "playoffs",
+                  rondas: PARTIDOS_PLAYOFF,
+                }
+              ],
+            };
+
+            const PATH_DIR = PATH_DIR_VIEW(storage);
+            const PATH_WRITE = PATH_WRITE_VIEW(storage);
+            await ViewRepository.createFile(
+              PATH_DIR,
+              PATH_WRITE,
+              FIXTURE_COMPLETO,
+            );
+            return;
+          }
+
+          if (esTemporada(storage.directory.season!, 2023)) {
+            let RONDA_REGULAR = ROUND_DATA.filter(esFaseRegular);
+            let RONDA_PLAYOFF = ROUND_DATA.filter(esFasePlayoff);
+
+            console.log(RONDA_PLAYOFF);
+
+            const PARTIDOS_REGU = RONDA_REGULAR.map((ronda, idx) => {
+              const partidos = FIXTURE_DATA.filter(
+                (fixture) => fixture.league.round === ronda,
+              );
+              return { ronda: `Fecha ${idx + 1}`, partidos };
+            });
+            const PARTIDOS_PLAYOFF = RONDA_PLAYOFF.map((ronda, idx) => {
+              const rondaName = ["Cuartos de Final", "Semifinal", "Final"];
+              const partidos = FIXTURE_DATA.filter(
+                (fixture) => fixture.league.round === ronda,
+              );
+              return { ronda: rondaName[idx], partidos: partidos };
+            });
+            let RONDA_RELEGATION = ROUND_DATA.filter(
+              (fase) => fase === "Relegation Decider",
+            );
+            const PARTIDOS_RELEGATION = RONDA_RELEGATION.map((ronda, idx) => {
+              const partidos = FIXTURE_DATA.filter(
+                (fixture) => fixture.league.round === ronda,
+              );
+              return { ronda: `Partido Desempate`, partidos };
+            });
+            const FIXTURE_COMPLETO = {
+              formato: "regular-playoffs",
+              fases: [
+                {
+                  fase: "regular",
+                  rondas: PARTIDOS_REGU,
+                },
+                {
+                  fase: "playoffs",
+                  rondas: PARTIDOS_PLAYOFF,
+                },
+                {
+                  fase: "relegation",
+                  rondas: PARTIDOS_RELEGATION,
+                },
+              ],
+            };
+
+            const PATH_DIR = PATH_DIR_VIEW(storage);
+            const PATH_WRITE = PATH_WRITE_VIEW(storage);
+            await ViewRepository.createFile(
+              PATH_DIR,
+              PATH_WRITE,
+              FIXTURE_COMPLETO,
+            );
+            return;
+          }
+
+          if (esTemporada(storage.directory.season!, 2024)) {
+            let RONDA_REGULAR = ROUND_DATA.filter(esFaseRegular);
+            let RONDA_PLAYOFF = ROUND_DATA.filter(esFasePlayoff);
+            const PARTIDOS_REGU = RONDA_REGULAR.map((ronda, idx) => {
+              const partidos = FIXTURE_DATA.filter(
+                (fixture) => fixture.league.round === ronda,
+              );
+              return { ronda: `Fecha ${idx + 1}`, partidos };
+            });
+
+            const PARTIDOS_PLAYOFF = RONDA_PLAYOFF.map((ronda, idx) => {
+              const rondaName = ["Cuartos de Final", "Semifinal", "Final"];
+              const partidos = FIXTURE_DATA.filter(
+                (fixture) => fixture.league.round === ronda,
+              );
+              return { ronda: rondaName[idx], partidos: partidos };
+            });
+
+            const FIXTURE_COMPLETO = {
+              formato: "regular-playoffs",
+              fases: [
+                {
+                  fase: "regular",
+                  rondas: PARTIDOS_REGU,
+                },
+                {
+                  fase: "playoffs",
+                  rondas: PARTIDOS_PLAYOFF,
+                },
+              ],
+            };
+
+            const PATH_DIR = PATH_DIR_VIEW(storage);
+            const PATH_WRITE = PATH_WRITE_VIEW(storage);
+            await ViewRepository.createFile(
+              PATH_DIR,
+              PATH_WRITE,
+              FIXTURE_COMPLETO,
+            );
+            return;
+          }
+        }
+        if (esLigaProfesional(storage.directory.league)) {
+          if (esTemporada(storage.directory.season!, 2022) && esTemporada(storage.directory.season!, 2021)) {
+            ROUND_DATA = ROUND_DATA.filter((fx) =>
+              fx.toLowerCase().startsWith("2nd Phase"),
+            );
+          }
+          const PARTIDOS_REGU = ROUND_DATA.map((ronda, idx) => {
+            const partidos = FIXTURE_DATA.filter(
+              (fixture) => fixture.league.round === ronda,
+            );
+            return { ronda: `Fecha ${idx + 1}`, partidos };
+          });
+
+          const FIXTURE_COMPLETO = {
+            formato: "regular",
+            fases: [
+              {
+                fase: "regular",
+                rondas: PARTIDOS_REGU,
               },
             ],
           };
@@ -318,7 +499,7 @@ export default class ViewService {
         await ViewRepository.updateFile(PATH_WRITE, STANDINGS_ANUAL);
       }
     } catch (error) {
-      console.error(error)
+      console.error(error);
     }
   }
 }
