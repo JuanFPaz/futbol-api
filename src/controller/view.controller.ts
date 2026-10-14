@@ -16,7 +16,7 @@ export const createFixtures = async (req: Request, res: Response) => {
 export const createTablaAnual = async (req: Request, res: Response) => {
   const TablaBody: RequestCreateView = req.body;
   try {
-    await ViewService.createTablas(TablaBody);
+    await ViewService.createTablaAnual(TablaBody);
     res.json({ status: 201, message: "Recurso Creado" });
   } catch (error) {
     res.status(500).json({ status: 500, message: (error as Error).message });

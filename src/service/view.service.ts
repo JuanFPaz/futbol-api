@@ -190,7 +190,7 @@ export default class ViewService {
     }
   }
 
-  static async createTablas({ path, storage }: RequestCreateView) {
+  static async createTablaAnual({ path, storage }: RequestCreateView) {
     const { country, league, season, tournament } = storage.directory;
 
     const STANDING_PATH = PATH_READ_RAW(path);
